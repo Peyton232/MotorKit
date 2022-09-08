@@ -3,9 +3,9 @@ import XCTest
 @testable import Motor
 
 final class MotorKitTests: XCTestCase {
-    func testCreateAccount() {
-        let motor = MotorKit()
-        let result = motor.createAccount(password: "password")
-        XCTAssertNil(result)
-    }
+//    func testCreateAccount() {
+//        let motor = MotorKit()
+//        let result = motor.createAccount(password: "password")
+//        XCTAssertNil(result)
+//    }
 }

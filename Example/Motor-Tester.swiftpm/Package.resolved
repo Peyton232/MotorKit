@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "IDZSwiftCommonCrypto",
+        "repositoryURL": "https://github.com/iosdevzone/IDZSwiftCommonCrypto",
+        "state": {
+          "branch": null,
+          "revision": "d824371e670bd57eb456bbc41139b4997f7207b8",
+          "version": "0.13.1"
+        }
+      },
+      {
+        "package": "MotorKit",
+        "repositoryURL": "https://github.com/sonr-io/MotorKit",
+        "state": {
+          "branch": "main",
+          "revision": "df7d842ef29867e0cfaa30c909b3586ff25d6a0d",
+          "version": null
+        }
+      },
+      {
+        "package": "SwiftProtobuf",
+        "repositoryURL": "https://github.com/apple/swift-protobuf.git",
+        "state": {
+          "branch": null,
+          "revision": "e1499bc69b9040b29184f7f2996f7bab467c1639",
+          "version": "1.19.0"
+        }
+      },
+      {
+        "package": "Valet",
+        "repositoryURL": "https://github.com/square/Valet.git",
+        "state": {
+          "branch": null,
+          "revision": "2bf3329055f5d71d42a12801dd69d1d770fafa5e",
+          "version": "4.1.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

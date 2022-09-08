@@ -1,122 +1,131 @@
-import Motor
 import Foundation
-import SecurityExtensions
-import Valet
-import CryptoKit
+import Motor
 
-let kDeviceSharedKey : String = "DEVICE_SHARED_KEY"
+let kDeviceSharedKey: String = "DEVICE_SHARED_KEY"
 
 public class MotorKit {
-    public var state : MotorState
-    private var secureEnclave : SecureEnclaveValet
+  // Initializer Function
+  //
+  // 1. Sets up Secure Enclave
+  // 2. Checks if Keychain contains motor record
+  // 3. Passes record to Bridge
+  // 4. Updates state
+  static public func initialize(req: Data, cb: SNRMotorMotorCallback) -> Data? {
+    // Setup Secure enclave
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorInit(req, cb, error)
+    if error != nil {
+      return nil
+    }
+    return resp
+  }
+  static public func connect() -> Bool {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorConnect(error)
+    if error != nil {
+      return false
+    }
+    return resp
+  }
 
-    // Initializer Function
-    //
-    // 1. Sets up Secure Enclave
-    // 2. Checks if Keychain contains motor record
-    // 3. Passes record to Bridge
-    // 4. Updates state
-    public init() {
-        // Setup Secure enclave
-        secureEnclave = SecureEnclaveValet.valet(with: Identifier(nonEmpty: "io.sonr.motor")!, accessControl: .userPresence)
-        state = currentMotorState(secureEnclave: secureEnclave)
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            print("This is run on a background queue")
-            let error: NSErrorPointer = nil
-            let buf = newInitializeRequest()
-            if buf != nil {
-                let rawResp = SNRMotorInit(buf, error)
-                DispatchQueue.main.async {
-                    print("This is run on the main queue, after the previous code in outer block")
-                    if error != nil {
-                        print(error.debugDescription)
-                        self.state = MotorState.failedToStart
-                        return
-                    }
-                    
-                    // Check Response
-                    if let respBuf = rawResp {
-                        var resp : Sonrio_Motor_Api_V1_InitializeResponse
-                        do {
-                            resp = try Sonrio_Motor_Api_V1_InitializeResponse(jsonUTF8Data: respBuf)
-                            print(resp.success)
-                        }catch {
-                            print("Failed to marshal request with protobuf")
-                            return
-                        }
-                    }
-                }
-            }
-        }
+  static public func stat() -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorStat(error)
+    if error != nil {
+      return nil
     }
+    return resp
+  }
 
-    // Create a new Account
-    //
-    // The createAccount() method takes the input of a Vault password and aesDscKey to:
-    //    1. Generate a new Wallet
-    //    2. Request Faucet for Tokens
-    //    3. Create a new WhoIs record for this user
-    public func createAccount(password : String) -> String? {
-        // Create a request for a new account
-        let buf = newCreateAccountRequest(secureEnclave: secureEnclave, password: password)
-        if buf != nil {
-            let error: NSErrorPointer = nil
-            
-            let rawResp = SNRMotorCreateAccount(buf, error)
-            if error != nil {
-                print(error.debugDescription)
-                return nil
-            }
-            
-            // Check Response
-            if let respBuf = rawResp {
-                var resp : Sonrio_Motor_Api_V1_CreateAccountResponse
-                do {
-                    resp = try Sonrio_Motor_Api_V1_CreateAccountResponse(jsonUTF8Data: respBuf)
-                }catch {
-                    print("Failed to marshal request with protobuf")
-                    return nil
-                }
-                return resp.address
-            }
-        }
+  // Create a new Account
+  static public func createAccount(req: Data) -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorCreateAccount(req, error)
+    if error != nil {
+      return nil
+    }
+    // No response returned
+    return resp
+  }
 
-        // No response returned
-        return nil
+  // Login to an existing account
+  static public func loginAccount(req: Data) -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorLogin(req, error)
+    if error != nil {
+      return nil
     }
-    
-    // Login to an existing account
-    public func loginAccount(did : String, password : String?, dscKey: Data?, pskKey: Data?) -> Bool {
-        let buf = newLoginRequest(did: did, password: password, dscKey: dscKey, pskKey: pskKey)
-        if buf != nil {
-            let error: NSErrorPointer = nil
-            let rawResp = SNRMotorLogin(buf, error)
-            if error != nil {
-                print(error.debugDescription)
-                return false
-            }
-            
-            // Check Response
-            if let respBuf = rawResp {
-                var resp : Sonrio_Motor_Api_V1_LoginResponse
-                do {
-                    resp = try Sonrio_Motor_Api_V1_LoginResponse(jsonUTF8Data: respBuf)
-                }catch {
-                    print("Failed to marshal request with protobuf")
-                    return false
-                }
-                return resp.success
-            }
-        }
-        return false
+    return resp
+  }
+
+  // Login to an existing account
+  static public func createSchema(req: Data) -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorCreateSchema(req, error)
+    if error != nil {
+      return nil
     }
-    
-    public func getAddress() -> String {
-        return SNRMotorAddress()
+    return resp
+  }
+
+  // Login to an existing account
+  static public func querySchema(req: Data) -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorQuerySchema(req, error)
+    if error != nil {
+      return nil
     }
-    
-    public func getBalance() -> Int {
-        return SNRMotorBalance()
+    return resp
+  }
+
+  // Login to an existing account
+  static public func querySchemaByCreator(req: Data) -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorQuerySchemaByCreator(req, error)
+    if error != nil {
+      return nil
     }
+    return resp
+  }
+
+  // Login to an existing account
+  static public func querySchemaByDid(req: String) -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorQuerySchemaByDid(req, error)
+    if error != nil {
+      return nil
+    }
+    return resp
+  }
+
+  // Login to an existing account
+  static public func queryBucket(req: Data) -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorQueryBucket(req, error)
+    if error != nil {
+      return nil
+    }
+    return resp
+  }
+
+  // Login to an existing account
+  static public func queryBucketByCreator(req: Data) -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorQueryBucketByCreator(req, error)
+    if error != nil {
+      return nil
+    }
+    return resp
+  }
+
+  // Login to an existing account
+  static public func issuePayment(req: Data) -> Data? {
+    let error: NSErrorPointer = nil
+    let resp = SNRMotorIssuePayment(req, error)
+    if error != nil {
+      return nil
+    }
+    return resp
+  }
+
 }
