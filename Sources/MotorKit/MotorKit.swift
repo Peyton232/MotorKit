@@ -1,5 +1,5 @@
 import Foundation
-import Motor
+@_exported import Motor
 
 let kDeviceSharedKey: String = "DEVICE_SHARED_KEY"
 
