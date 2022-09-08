@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MotorKit'
-  s.version          = '0.0.5'
+  s.version          = '0.2.0'
   s.summary          = 'Apple architecture (iOS, macOS) bindings for the Sonr Motor Node.'
 
   s.homepage         = 'https://github.com/sonr-io/MotorKit'
