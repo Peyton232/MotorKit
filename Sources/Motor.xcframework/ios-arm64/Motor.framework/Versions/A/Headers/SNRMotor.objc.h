@@ -19,7 +19,7 @@
 
 @protocol SNRMotorMotorCallback <NSObject>
 - (void)onDiscover:(NSData* _Nullable)data;
-- (void)onWalletCreated:(BOOL)ok;
+- (void)onWalletEvent:(NSString* _Nullable)msg isDone:(BOOL)isDone;
 @end
 
 @interface SNRMotorBucketObjectItem : NSObject <goSeqRefInterface> {
@@ -83,6 +83,8 @@ FOUNDATION_EXPORT BOOL SNRMotorAddListString(NSString* _Nullable name, NSString*
 
 FOUNDATION_EXPORT NSData* _Nullable SNRMotorBuildObject(NSString* _Nullable name, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT NSData* _Nullable SNRMotorBuyAlias(NSData* _Nullable buf, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT BOOL SNRMotorConnect(NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSData* _Nullable SNRMotorCreateAccount(NSData* _Nullable buf, NSError* _Nullable* _Nullable error);
@@ -130,6 +132,8 @@ FOUNDATION_EXPORT BOOL SNRMotorResolveBucket(NSString* _Nullable did, NSError* _
 
 FOUNDATION_EXPORT BOOL SNRMotorResolveSubBucket(NSString* _Nullable bucketDid, NSString* _Nullable subBucketDid, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT NSData* _Nullable SNRMotorSellAlias(NSData* _Nullable buf, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT BOOL SNRMotorSetBool(NSString* _Nullable name, NSString* _Nullable fieldName, long v, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BOOL SNRMotorSetBytes(NSString* _Nullable name, NSString* _Nullable fieldName, NSData* _Nullable v, NSError* _Nullable* _Nullable error);
@@ -149,6 +153,8 @@ FOUNDATION_EXPORT BOOL SNRMotorSetString(NSString* _Nullable name, NSString* _Nu
  */
 FOUNDATION_EXPORT NSData* _Nullable SNRMotorStat(NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT NSData* _Nullable SNRMotorTransferAlias(NSData* _Nullable buf, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT BOOL SNRMotorUpdateBucketLabel(NSString* _Nullable bucketDid, NSString* _Nullable label, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BOOL SNRMotorUpdateBucketVisibility(NSString* _Nullable bucketDid, long vis, NSError* _Nullable* _Nullable error);
@@ -163,7 +169,7 @@ FOUNDATION_EXPORT NSData* _Nullable SNRMotorUploadObject(NSString* _Nullable nam
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (void)onDiscover:(NSData* _Nullable)data;
-- (void)onWalletCreated:(BOOL)ok;
+- (void)onWalletEvent:(NSString* _Nullable)msg isDone:(BOOL)isDone;
 @end
 
 #endif
