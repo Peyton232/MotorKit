@@ -1,6 +1,8 @@
 # MotorKit for Swift
 > Apple architecture (iOS, macOS) bindings for the Sonr Motor Node.
 
+# ON HOLD - This project is currently on hold in favor of [Motor Flutter](https://github.com/sonr-io/motor-flutter).
+
 [![Swift Version][swift-image]][swift-url]
 [![Build Status][travis-image]][travis-url]
 [![License][license-image]][license-url]
